@@ -1,4 +1,4 @@
-package com.app.library.interfaces;
+package com.app.library.interfaces.repos;
 
 import com.app.library.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
