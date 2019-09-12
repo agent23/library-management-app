@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ContactDetails {
     private String areaCode;
-    private long phone;
+    private String phone;
     private String email;
 }
