@@ -52,6 +52,15 @@ public class UserRegistrationTest {
     }
 
     @Test
+    public void validate_mobile_phone_length_to_be_10_and_without_letters() {
+        User user = getUser();
+
+        user.setContactDetails(new ContactDetails("+27", "07812jw4", "email@gmail.com"));
+        ResponseEntity response = registrationController.registerUser(user);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
     public void when_interface_failed_to_save_a_user() {
         User user = getUser();
 
