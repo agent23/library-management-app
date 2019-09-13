@@ -3,10 +3,12 @@ package com.app.library.config;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
+@EqualsAndHashCode(callSuper = true)
 @Configuration
 @Data
 @ConfigurationProperties(value = "spring.data.mongodb")
