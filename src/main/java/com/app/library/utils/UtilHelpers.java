@@ -14,11 +14,7 @@ public class UtilHelpers {
 
     public static boolean validateContactDetails(User userRequest) {
         if (userRequest.getContactDetails() != null) {
-            if (userRequest.getContactDetails().getPhone() != null) {
-                if (validateMobile(userRequest.getContactDetails().getPhone())) {
-                    return true;
-                }
-            }
+            return userRequest.getContactDetails().getPhone() != null && validateMobile(userRequest.getContactDetails().getPhone());
         }
         return false;
     }
@@ -39,10 +35,8 @@ public class UtilHelpers {
     }
 
     public static boolean validateRequest(User userRequest) {
-        if (StringUtils.isBlank(userRequest.getUsername()) || StringUtils.isBlank(userRequest.getPassword())
-                || userRequest.getContactDetails() == null)
-            return true;
-        return false;
+        return StringUtils.isBlank(userRequest.getUsername()) || StringUtils.isBlank(userRequest.getPassword())
+                || userRequest.getContactDetails() == null;
     }
 
     private static boolean validateMobile(String mobile) {
