@@ -57,7 +57,7 @@ public class UserRegistrationTest {
 
         user.setContactDetails(new ContactDetails("+27", "07812jw4", "email@gmail.com"));
         ResponseEntity response = registrationController.registerUser(user);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class UserRegistrationTest {
     private User getUser() {
         User user = new User();
         user.setUsername("Libenyane");
-        user.setPassword("Stephen");
+        user.setPassword("#Mohale95");
         user.setLastName("Mohale");
         user.setFirstName("First Born");
         user.setAddress(new Address("ZA", 2194, 166, "Bram"));
