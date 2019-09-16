@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @RestController
 public class RegistrationController {
 
@@ -24,24 +27,47 @@ public class RegistrationController {
     @PostMapping("/register")
     @ApiOperation(value = "Rest API to register a user", notes = "An api endpoint that creates a profile entry")
     public ResponseEntity registerUser(@RequestBody User userRequest) {
-        User response = null;
+        User response;
         if (validateRequest(userRequest))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mandatory fields are empty");
-        response = validateContactDetails(userRequest, response);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mandatory fields are empty!");
+        if (!validateContactDetails(userRequest))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verify your mobile number!");
+        if (!validatePassword(userRequest.getPassword()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password must be 8 or more characters long, have " +
+                    "special characters, at least 1 Lowercase and 1 Uppercase character!");
+
+        response = registrationService.registerNewUserAccount(userRequest);
+
         if (response != null)
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    private User validateContactDetails(User userRequest, User response) {
+    private boolean validateContactDetails(User userRequest) {
         if (userRequest.getContactDetails() != null) {
             if (userRequest.getContactDetails().getPhone() != null) {
                 if (validateMobile(userRequest.getContactDetails().getPhone())) {
-                    response = registrationService.registerNewUserAccount(userRequest);
+                    return true;
                 }
             }
         }
-        return response;
+        return false;
+    }
+
+    private boolean validatePassword(String password) {
+        if (password.length() >= 8) {
+            Pattern letter = Pattern.compile("[a-zA-Z]");
+            Pattern digit = Pattern.compile("[0-9]");
+            Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
+            Matcher hasLetter = letter.matcher(password);
+            Matcher hasDigit = digit.matcher(password);
+            Matcher hasSpecial = special.matcher(password);
+
+            return hasLetter.find() && hasDigit.find() && hasSpecial.find();
+        } else
+            return false;
     }
 
     private boolean validateRequest(User userRequest) {
