@@ -52,4 +52,8 @@ public class UtilHelpers {
         }
         return valid;
     }
+
+    public static boolean isUsernameEmpty(String username) {
+        return !username.trim().isEmpty() && username.length() >= 1;
+    }
 }
