@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService {
@@ -24,6 +25,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     public User updateExistingUser(User accountDto) {
         return userRepository.save(setUserDetails(accountDto));
+    }
+
+    @Override
+    public Optional<User> getUser(String username) {
+        return userRepository.findById(username);
     }
 
     @Override

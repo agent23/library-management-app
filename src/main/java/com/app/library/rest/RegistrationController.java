@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RegistrationController {
@@ -44,7 +45,7 @@ public class RegistrationController {
     @DeleteMapping("/deleteUser")
     @ApiOperation(value = "Rest API to delete a user", notes = "An api endpoint that delete a profile entry")
     public void deleteUser(@RequestParam String username) {
-        if (UtilHelpers.isUsernameEmpty(username))
+        if (!UtilHelpers.isUsernameEmpty(username))
             throw new IllegalArgumentException("Username can not be empty");
         try {
             registrationService.deleteUser(username);
@@ -53,10 +54,28 @@ public class RegistrationController {
         }
     }
 
+    @GetMapping("/getUser")
+    @ApiOperation(value = "Rest API to delete a user", notes = "An api endpoint that delete a profile entry")
+    public ResponseEntity getUser(@RequestParam String username) {
+        if (!UtilHelpers.isUsernameEmpty(username))
+            throw new IllegalArgumentException("Username can not be empty");
+        try {
+            Optional<User> user = registrationService.getUser(username);
+            if (user.isPresent())
+                return ResponseEntity.ok().body(user.get());
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("Something went wrong: " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not fount");
+    }
+
     @GetMapping("/getUsers")
     @ApiOperation(value = "Rest API to get all registered users", notes = "An api endpoint that gets all profile entries")
-    public List<User> getUsers() {
-        return registrationService.getUsers();
+    public ResponseEntity getUsers() {
+        List<User> users = registrationService.getUsers();
+        if (users.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No users found");
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @PutMapping("/updateUser")
