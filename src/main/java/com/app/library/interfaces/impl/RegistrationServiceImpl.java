@@ -19,10 +19,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.userRepository = userRepository;
     }
 
+    @Override
     public User registerNewUserAccount(User accountDto) {
         return userRepository.insert(setUserDetails(accountDto));
     }
 
+    @Override
     public User updateExistingUser(User accountDto) {
         return userRepository.save(setUserDetails(accountDto));
     }
@@ -37,6 +39,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         return userRepository.findAll();
     }
 
+    @Override
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
