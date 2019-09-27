@@ -56,4 +56,11 @@ public class UtilHelpers {
     public static boolean isUsernameEmpty(String username) {
         return !username.trim().isEmpty() && username.length() >= 1;
     }
+
+    public static boolean validateEmailAdd(String emailAdd) {
+        boolean flag = false;
+        if (emailAdd.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            flag = true;
+        return flag;
+    }
 }

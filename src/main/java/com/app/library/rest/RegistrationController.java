@@ -33,6 +33,8 @@ public class RegistrationController {
         if (!UtilHelpers.validatePassword(userRequest.getPassword()))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password must be 8 or more characters long, have " +
                     "special characters, at least 1 Lowercase and 1 Uppercase character!");
+        if (!UtilHelpers.validateEmailAdd(userRequest.getContactDetails().getEmail()))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email address!");
 
         response = registrationService.registerNewUserAccount(userRequest);
 
