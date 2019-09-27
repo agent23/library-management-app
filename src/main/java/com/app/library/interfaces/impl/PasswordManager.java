@@ -8,10 +8,6 @@ public class PasswordManager implements IPasswordManager {
 
     private PasswordEncoder passwordEncoder;
 
-    public PasswordManager(PasswordEncoder passwordManager) {
-        this.passwordEncoder = passwordManager;
-    }
-
     public PasswordManager() {
         passwordEncoder = new BCryptPasswordEncoder();
     }
@@ -22,7 +18,7 @@ public class PasswordManager implements IPasswordManager {
     }
 
     @Override
-    public boolean comparePasswords() {
-        return passwordEncoder.matches("", "");
+    public boolean comparePasswords(String plainPass, String encodedPass) {
+        return passwordEncoder.matches(plainPass, encodedPass);
     }
 }

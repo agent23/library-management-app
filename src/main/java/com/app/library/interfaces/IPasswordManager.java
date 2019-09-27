@@ -3,5 +3,6 @@ package com.app.library.interfaces;
 
 public interface IPasswordManager {
     String encodePassword(String password);
-    boolean comparePasswords();
+
+    boolean comparePasswords(String plainPass, String encodedPass);
 }
