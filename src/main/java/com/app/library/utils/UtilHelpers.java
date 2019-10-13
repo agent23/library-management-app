@@ -1,5 +1,6 @@
 package com.app.library.utils;
 
+import com.app.library.models.Book;
 import com.app.library.models.User;
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,6 +62,21 @@ public class UtilHelpers {
         boolean flag = false;
         if (emailAdd.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             flag = true;
+        return flag;
+    }
+
+    public static boolean validBook(Book book) {
+        boolean flag = true;
+        if (StringUtils.isAllBlank(book.getAuthor(), book.getIsbn(), book.getPublisher(), book.getPublisher(),
+                book.getTitle()))
+            flag = false;
+        return flag;
+    }
+
+    public static boolean checkIsbn(String isbn) {
+        boolean flag = true;
+        if (StringUtils.isBlank(isbn))
+            flag = false;
         return flag;
     }
 }
