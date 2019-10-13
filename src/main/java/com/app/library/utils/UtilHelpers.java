@@ -68,7 +68,7 @@ public class UtilHelpers {
     public static boolean validBook(Book book) {
         boolean flag = true;
         if (StringUtils.isAllBlank(book.getAuthor(), book.getIsbn(), book.getPublisher(), book.getPublisher(),
-                book.getTitle()))
+                book.getTitle()) || !verifyYear(book.getYear()))
             flag = false;
         return flag;
     }
@@ -76,6 +76,13 @@ public class UtilHelpers {
     public static boolean checkIsbn(String isbn) {
         boolean flag = true;
         if (StringUtils.isBlank(isbn))
+            flag = false;
+        return flag;
+    }
+
+    private static boolean verifyYear(int year) {
+        boolean flag = true;
+        if (year <= 0)
             flag = false;
         return flag;
     }

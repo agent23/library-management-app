@@ -42,7 +42,7 @@ public class BookController {
     @ApiOperation(value = "Rest API to update a book", notes = "An api endpoint that update a book entry")
     public ResponseEntity update(@RequestBody Book book) {
         if (!UtilHelpers.validBook(book))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Provide all book properties!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Provide all book properties and a year must be greater than 0!");
         return ResponseEntity.status(HttpStatus.OK).body(libraryService.update(book));
     }
 
