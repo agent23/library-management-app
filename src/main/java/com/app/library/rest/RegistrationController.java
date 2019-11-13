@@ -37,7 +37,7 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email address!");
 
         if (getUser(userRequest.getUsername()).getStatusCode().value() == 200)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exist! Login?");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exist! Login??");
         response = registrationService.registerNewUserAccount(userRequest);
 
         if (response != null)
