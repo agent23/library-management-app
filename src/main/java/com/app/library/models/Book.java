@@ -17,4 +17,5 @@ public class Book {
     private String author;
     private String publisher;
     private int year;
+    private User user;
 }

@@ -1,7 +1,7 @@
 package com.app.library;
 
-import com.app.library.models.Address;
-import com.app.library.models.ContactDetails;
+import com.app.library.interfaces.impl.RegistrationServiceImpl;
+import com.app.library.interfaces.repos.UserRepository;
 import com.app.library.models.User;
 import com.app.library.rest.RegistrationController;
 import com.app.library.services.RegistrationService;
@@ -22,7 +22,10 @@ import static org.junit.Assert.assertEquals;
 public class UserRegistrationTest {
 
     @Mock
-    RegistrationService registrationService;
+    UserRepository userRepository;
+
+    @Mock
+    RegistrationServiceImpl registrationService;
 
     @InjectMocks
     RegistrationController registrationController;
@@ -32,10 +35,8 @@ public class UserRegistrationTest {
         User user = new User();
         user.setUsername("");
         user.setPassword("");
-        user.setLastName("");
-        user.setFirstName("");
-        user.setAddress(null);
-        user.setContactDetails(null);
+        user.setPhone("");
+        user.setEmail("");
 
         ResponseEntity response = registrationController.registerUser(user);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -45,18 +46,18 @@ public class UserRegistrationTest {
     public void successfulRegistration() {
         User user = getUser();
 
-        Mockito.when(registrationService.registerNewUserAccount(user)).thenReturn(user);
+        Mockito.when(registrationService.registerNewUserAccount(user)).thenReturn(ResponseEntity.ok().body(user));
 
-        ResponseEntity response = registrationController.registerUser(user);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        ResponseEntity response = registrationService.registerNewUserAccount(user);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void validate_mobile_phone_length_to_be_10_and_without_letters() {
         User user = getUser();
 
-        user.setContactDetails(new ContactDetails("+27", "07812jw4", "email@gmail.com"));
-        ResponseEntity response = registrationController.registerUser(user);
+        user.setPhone( "07812jw4");
+        ResponseEntity response = registrationService.registerNewUserAccount(user);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
@@ -64,7 +65,7 @@ public class UserRegistrationTest {
     public void when_interface_failed_to_save_a_user() {
         User user = getUser();
 
-        ResponseEntity response = registrationController.registerUser(user);
+        ResponseEntity response = registrationService.registerNewUserAccount(user);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
@@ -72,10 +73,10 @@ public class UserRegistrationTest {
         User user = new User();
         user.setUsername("Libenyane");
         user.setPassword("#Mohale95");
-        user.setLastName("Mohale");
-        user.setFirstName("First Born");
-        user.setAddress(new Address("ZA", 2194, 166, "Bram"));
-        user.setContactDetails(new ContactDetails("+27", "0781234567", "email@gmail.com"));
+        user.setPhone("0781234567");
+        user.setEmail("email@gmail.com");
+       // user.setAddress(new Address("ZA", 2194, 166, "Bram"));
+        //user.setContactDetails(new ContactDetails("+27", "0781234567", "email@gmail.com"));
         return user;
     }
 }

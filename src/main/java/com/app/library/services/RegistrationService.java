@@ -1,18 +1,18 @@
 package com.app.library.services;
 
 import com.app.library.models.User;
-
-import java.util.List;
-import java.util.Optional;
+import org.springframework.http.ResponseEntity;
 
 public interface RegistrationService {
-    User registerNewUserAccount(User accountDto);
+    ResponseEntity registerNewUserAccount(User accountDto);
 
     void deleteUser(String username);
 
-    User updateExistingUser(User accountDto);
+    ResponseEntity updateExistingUser(User accountDto);
 
-    List<User> getUsers();
+    ResponseEntity getUsers();
 
-    Optional<User> getUser(String username);
+    ResponseEntity getUser(String username);
+
+    ResponseEntity loginUser(String username, String password);
 }
