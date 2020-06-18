@@ -1,5 +1,6 @@
 package com.app.library.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String username;
+    @JsonIgnore
     private String password;
     private String phone;
     private String email;
