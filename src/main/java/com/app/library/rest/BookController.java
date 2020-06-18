@@ -5,6 +5,7 @@ import com.app.library.services.LibraryService;
 import com.app.library.utils.UtilHelpers;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,13 +47,14 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(libraryService.update(book));
     }
 
-    @GetMapping("/book")
+    @GetMapping("/books")
+    @Cacheable(value = "Book-getAllBooks", unless = "#result == null")
     @ApiOperation(value = "Rest API to get all books", notes = "An api endpoint that gets all book entries")
-    public List<Book> getAll() {
+    public List<Book> getAllBooks() {
         return libraryService.getAllBooks();
     }
 
-    @GetMapping("/book/{isbn}")
+    @GetMapping("/books/{isbn}")
     @ApiOperation(value = "Rest API to get a book", notes = "An api endpoint that get a book entry")
     public ResponseEntity get(@PathVariable String isbn) {
         if (!UtilHelpers.checkIsbn(isbn))

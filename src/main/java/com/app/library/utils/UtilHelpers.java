@@ -1,7 +1,7 @@
 package com.app.library.utils;
 
 import com.app.library.models.Book;
-import com.app.library.models.User;
+import com.app.library.models.UserRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Matcher;
@@ -13,7 +13,7 @@ public class UtilHelpers {
     private UtilHelpers() {
     }
 
-    public static boolean validateContactDetails(User userRequest) {
+    public static boolean validateContactDetails(UserRequest userRequest) {
         if (userRequest != null) {
             return userRequest.getPhone() != null && validateMobile(userRequest.getPhone());
         }
@@ -35,7 +35,7 @@ public class UtilHelpers {
             return false;
     }
 
-    public static boolean validateRequest(User userRequest) {
+    public static boolean validateRequest(UserRequest userRequest) {
         return StringUtils.isBlank(userRequest.getUsername()) || StringUtils.isBlank(userRequest.getPassword())
                 || userRequest.getEmail() == null;
     }

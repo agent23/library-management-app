@@ -1,6 +1,6 @@
 package com.app.library.config;
 
-import com.app.library.models.User;
+import com.app.library.models.UserRequest;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -19,13 +19,13 @@ public class MailingConfig {
     private String domain;
 
     @SneakyThrows
-    public JsonNode sendSimpleMessage(User user)  {
+    public JsonNode sendSimpleMessage(UserRequest userRequest) {
         HttpResponse<JsonNode> request = Unirest.post(baseUrl + "/messages")
                 .basicAuth("api", apiKey)
                 .queryString("from", "admin@backendpty.co.za")
-                .queryString("to", user.getEmail())
+                .queryString("to", userRequest.getEmail())
                 .queryString("subject", "Welcome")
-                .queryString("text", "Hi " + user.getUsername() +", \nWe would like to welcome you to our app." +
+                .queryString("text", "Hi " + userRequest.getUsername() + ", \nWe would like to welcome you to our app." +
                         "\n\nRegards\nLibrary Team")
                 .asJson();
         return request.getBody();

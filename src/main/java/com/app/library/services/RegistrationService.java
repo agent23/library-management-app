@@ -1,14 +1,14 @@
 package com.app.library.services;
 
-import com.app.library.models.User;
+import com.app.library.models.UserRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface RegistrationService {
-    ResponseEntity registerNewUserAccount(User accountDto);
+    ResponseEntity registerNewUserAccount(UserRequest accountDto);
 
     void deleteUser(String username);
 
-    ResponseEntity updateExistingUser(User accountDto);
+    ResponseEntity updateExistingUser(UserRequest accountDto);
 
     ResponseEntity getUsers();
 

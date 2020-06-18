@@ -2,9 +2,8 @@ package com.app.library;
 
 import com.app.library.interfaces.impl.RegistrationServiceImpl;
 import com.app.library.interfaces.repos.UserRepository;
-import com.app.library.models.User;
+import com.app.library.models.UserRequest;
 import com.app.library.rest.RegistrationController;
-import com.app.library.services.RegistrationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,51 +31,51 @@ public class UserRegistrationTest {
 
     @Test
     public void ensure_mandatory_fields_are_not_null() {
-        User user = new User();
-        user.setUsername("");
-        user.setPassword("");
-        user.setPhone("");
-        user.setEmail("");
+        UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("");
+        userRequest.setPassword("");
+        userRequest.setPhone("");
+        userRequest.setEmail("");
 
-        ResponseEntity response = registrationController.registerUser(user);
+        ResponseEntity response = registrationController.registerUser(userRequest);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void successfulRegistration() {
-        User user = getUser();
+        UserRequest userRequest = getUser();
 
-        Mockito.when(registrationService.registerNewUserAccount(user)).thenReturn(ResponseEntity.ok().body(user));
+        Mockito.when(registrationService.registerNewUserAccount(userRequest)).thenReturn(ResponseEntity.ok().body(userRequest));
 
-        ResponseEntity response = registrationService.registerNewUserAccount(user);
+        ResponseEntity response = registrationService.registerNewUserAccount(userRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void validate_mobile_phone_length_to_be_10_and_without_letters() {
-        User user = getUser();
+        UserRequest userRequest = getUser();
 
-        user.setPhone( "07812jw4");
-        ResponseEntity response = registrationService.registerNewUserAccount(user);
+        userRequest.setPhone("07812jw4");
+        ResponseEntity response = registrationService.registerNewUserAccount(userRequest);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void when_interface_failed_to_save_a_user() {
-        User user = getUser();
+        UserRequest userRequest = getUser();
 
-        ResponseEntity response = registrationService.registerNewUserAccount(user);
+        ResponseEntity response = registrationService.registerNewUserAccount(userRequest);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
-    private User getUser() {
-        User user = new User();
-        user.setUsername("Libenyane");
-        user.setPassword("#Mohale95");
-        user.setPhone("0781234567");
-        user.setEmail("email@gmail.com");
-       // user.setAddress(new Address("ZA", 2194, 166, "Bram"));
-        //user.setContactDetails(new ContactDetails("+27", "0781234567", "email@gmail.com"));
-        return user;
+    private UserRequest getUser() {
+        UserRequest userRequest = new UserRequest();
+        userRequest.setUsername("Libenyane");
+        userRequest.setPassword("#Mohale95");
+        userRequest.setPhone("0781234567");
+        userRequest.setEmail("email@gmail.com");
+        // userRequest.setAddress(new Address("ZA", 2194, 166, "Bram"));
+        //userRequest.setContactDetails(new ContactDetails("+27", "0781234567", "email@gmail.com"));
+        return userRequest;
     }
 }
